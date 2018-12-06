@@ -1,0 +1,37 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+FILE_NAME_LENGTH	leak_detector_c.h	5;"	d
+LEAK_DETECTOR_C_H	leak_detector_c.h	3;"	d
+MEM_INFO	leak_detector_c.h	/^typedef struct _MEM_INFO MEM_INFO;$/;"	t	typeref:struct:_MEM_INFO
+MEM_LEAK	leak_detector_c.h	/^typedef struct _MEM_LEAK MEM_LEAK;$/;"	t	typeref:struct:_MEM_LEAK
+OUTPUT_FILE	leak_detector_c.h	6;"	d
+_MEM_INFO	leak_detector_c.h	/^struct _MEM_INFO$/;"	s
+_MEM_LEAK	leak_detector_c.h	/^struct _MEM_LEAK {$/;"	s
+add	leak_detector_c.c	/^void add(MEM_INFO alloc_info)$/;"	f
+add_mem_info	leak_detector_c.c	/^void add_mem_info (void * mem_ref, unsigned int size,  const char * file, unsigned int line)$/;"	f
+address	leak_detector_c.h	/^	void			*address;$/;"	m	struct:_MEM_INFO
+calloc	leak_detector_c.c	7;"	d	file:
+calloc	leak_detector_c.h	8;"	d
+clear	leak_detector_c.c	/^void clear()$/;"	f
+erase	leak_detector_c.c	/^void erase(unsigned pos)$/;"	f
+file_name	leak_detector_c.h	/^	char			file_name[FILE_NAME_LENGTH];$/;"	m	struct:_MEM_INFO
+free	leak_detector_c.c	8;"	d	file:
+free	leak_detector_c.h	9;"	d
+line	leak_detector_c.h	/^	unsigned int	line;$/;"	m	struct:_MEM_INFO
+main	test.c	/^int main()$/;"	f
+malloc	leak_detector_c.c	6;"	d	file:
+malloc	leak_detector_c.h	7;"	d
+mem_info	leak_detector_c.h	/^	MEM_INFO mem_info;$/;"	m	struct:_MEM_LEAK
+next	leak_detector_c.h	/^	struct _MEM_LEAK * next;$/;"	m	struct:_MEM_LEAK	typeref:struct:_MEM_LEAK::_MEM_LEAK
+ptr_next	leak_detector_c.c	/^static MEM_LEAK * ptr_next =  NULL;$/;"	v	file:
+ptr_start	leak_detector_c.c	/^static MEM_LEAK * ptr_start = NULL;$/;"	v	file:
+remove_mem_info	leak_detector_c.c	/^void remove_mem_info (void * mem_ref)$/;"	f
+report_mem_leak	leak_detector_c.c	/^void report_mem_leak(void)$/;"	f
+size	leak_detector_c.h	/^	unsigned int	size;$/;"	m	struct:_MEM_INFO
+xcalloc	leak_detector_c.c	/^void * xcalloc (unsigned int elements, unsigned int size, const char * file, unsigned int line)$/;"	f
+xfree	leak_detector_c.c	/^void xfree(void * mem_ref)$/;"	f
+xmalloc	leak_detector_c.c	/^void * xmalloc (unsigned int size, const char * file, unsigned int line)$/;"	f

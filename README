@@ -1,0 +1,129 @@
+
+
+Title:       Memory leak detection in C
+Author:      Rabinarayan Biswal
+Email:       rabinarayanb@mindfiresolutions.com
+Member ID:   4264280
+Language:    C++
+Platform:    Windows/Linux
+Technology:  Generic
+Level:       Beginner
+Description: a simple yet effective solution to memory leak detection in C code
+Section      C++/MFC
+SubSection   None
+
+    Download source - 3 Kb
+
+Introduction
+
+Memory leak has always been a part of bugs in C code where a programmer allocates memory in run time (in heap) and fails to deallocate it . And most programmers use some third party software to detect memory leak in their code .
+
+But we can write very simple code to detect memory leak in our program .
+
+Usually we allocate memory in C using malloc() and calloc() in run time and deallocate the reserved memory using free() . Sometimes we donot free the reserved memory which causes memory leak
+
+The below method is a very simple one and helps to detect memory leak in your program.
+Using the code
+
+Lets assume you have allocated some memory in your code using malloc() and calloc() and haven't deallocated it and your code looks like below .
+
+	test.c
+
+	#include
+	int main()
+	{
+		char * ptr1 = (char *) malloc (10); // allocating 10 bytes
+		int * ptr2 = (int *) calloc (10, sizeof(int)); // allocating 40 bytes let sizeof int =  4 bytes)
+		float * ptr3 = (float *) calloc (15, sizeof(float)); // allocating 60 bytes
+		............
+		............
+		............
+		free(ptr2);
+		return 0;
+	}
+
+
+
+STEPS TO DETECT MEMORY LEAK :
+
+(I have tested the code in a linux machine using GCC . you can test the same code in Windows as well.)
+
+STEP1 :
+
+Now to test memory leak, just add the leak_detector_c.h file to the test file and just add one line to the start of main function .
+
+Now the test code should look like below .
+
+	test.c
+
+	#include
+	#include "leak_detector_c.h"
+
+	int main()
+	{
+		char * ptr1;
+		int * ptr2;
+		float * ptr3;
+
+		atexit(report_mem_leak);
+
+		ptr1 = (char *) malloc (10); // allocating 10 bytes
+		ptr2 = (int *) calloc (10, sizeof(int)); // allocating 40 bytes let sizeof int =  4 bytes)
+		ptr3 = (float *) calloc (15, sizeof(float)); // allocating 60 bytes
+
+		............
+		............
+		............
+		free(ptr2);
+		return 0;
+	}
+
+
+
+STEP2 : Now compile the code and run the program .
+
+		# gcc -c leak_detector_.c
+		# gcc -c test.c
+		# gcc -o memtest leak_detctor_c.o test.o
+		# ./memtest
+		# cat /home/leak_info.txt
+
+
+Now you will get the output like below :
+
+	Memory Leak Summary
+	-----------------------------------
+	address : 140668936
+	size    : 10 bytes
+	file    : test.c
+	line    : 5
+	-----------------------------------
+	address : 140669560
+	size    : 60 bytes
+	file    : test.c
+	line    : 7
+	-----------------------------------
+
+
+The output shows the file name and line number which causes the memoryleak and now you can free the unallocated memory. If you have multiple source files, you can add the header file in all the files where you want to detect posiible memory leak and compile the program as above.
+
+Now lets have look into the code and how it works .
+
+The leak_detctor_c.h file contains some macros and the preprocessor replaces the call of malloc, calloc and free functions with xmalloc, xcalloc and xfree respectively .
+
+While calling malloc() our xmalloc() is called and We keep all information of the allocated memory (like the address, size, file name and line number) in a linked list. while the code call the free() function, it actually calls our xfree() and we manage to do the cleanup task (remove the entry of the allocated memory from the list and free up the allocated memory).
+
+At the end of the program, we can get the unallocated memory references from the list.
+
+The line "atexit(report_mem_leak)" registers the report_mem_leak() function to be called at the end of the program and this function writes the memory leak summary in to the leak_info.txt file. you can also use #pragma exit dirctive instead of atexit().
+
+
+
+Copeid from
+https://www.codeproject.com/Articles/19361/%2FArticles%2F19361%2FMemory-Leak-Detection-in-C
+
+refference :
+
+https://stackoverflow.com/questions/9074229/detecting-memory-leaks-in-c-programs
+
+http://valgrind.org/docs/manual/mc-manual.htmL
